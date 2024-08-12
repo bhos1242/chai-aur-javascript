@@ -1,21 +1,19 @@
-require('dotenv').config()
-const express = require("express")
-const app = express();
-const port = process.env.PORT
+const app = require('./src/app');
+
+require('dotenv').config(); // Load environment variables
 
 app.get("/",(req,res)=>{
-    res.send("Hello world")
+  console.log("hello ")
+  res.send("Hello hande")
 })
 
-app.get('/twitter',(req,res)=>{
-    res.send("Hello twitter")
-})
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
 
-app.get("/login",(req,res)=>{
-    res.send('<h1>please login at chai aur javascript</h1>')
-})
-
-app.listen(process.env.PORT,()=>{
-    console.log(`server is listening on port ${port}`)
-})
-
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
